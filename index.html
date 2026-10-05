@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="screen-orientation" content="landscape" />
     <link rel="stylesheet" href="/style.css">
     <title>Bé Vui Học - Kéo Thả Chữ Cái & Chữ Số (GameTuongTac2D)</title>
 </head>
@@ -11,6 +14,11 @@
 <body>
     <div id="app">
         <div id="game-container"></div>
+        <div id="rotate-prompt">
+            <div class="rotate-icon">📱 ➔ 🔄 ➔ 📱</div>
+            <div class="rotate-title">Bé Hãy Xoay Ngang Điện Thoại Nhé!</div>
+            <div class="rotate-desc">Trò chơi hiển thị đẹp nhất và dễ chơi nhất khi xoay màn hình nằm ngang 🌟</div>
+        </div>
     </div>
     <script type="module" src="src/main.js"></script>
 </body>

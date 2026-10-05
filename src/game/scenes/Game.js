@@ -677,7 +677,7 @@ export class Game extends Scene {
             this.drawCardBackground(card.cardBg, card.width, card.height, card.color, false);
 
             let matchedTarget = null;
-            let minDist = 80;
+            let minDist = 95; // Bán kính nhận diện thả thẻ rộng hơn cho ngón tay trẻ em (mobile friendly)
 
             this.targets.forEach(target => {
                 if (target.resolved) return;

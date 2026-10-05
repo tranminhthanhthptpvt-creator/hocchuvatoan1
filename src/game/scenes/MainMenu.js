@@ -21,18 +21,18 @@ export class MainMenu extends Scene {
         this.createFloatingBubbles(width, height);
 
         // Banner Tiêu đề chính
-        const titleBanner = this.add.container(width / 2, 58);
+        const titleBanner = this.add.container(width / 2, 54);
 
         const titleBg = this.add.graphics();
         titleBg.fillStyle(0xffffff, 0.12);
-        titleBg.fillRoundedRect(-400, -36, 800, 72, 18);
+        titleBg.fillRoundedRect(-420, -36, 840, 72, 18);
         titleBg.lineStyle(2.5, 0xfacc15, 0.9);
-        titleBg.strokeRoundedRect(-400, -36, 800, 72, 18);
+        titleBg.strokeRoundedRect(-420, -36, 840, 72, 18);
         titleBanner.add(titleBg);
 
         const titleText = this.add.text(0, -12, '🎒 BÉ VUI HỌC CHỮ & TOÁN 🎒', {
             fontFamily: 'Segoe UI, Arial, sans-serif',
-            fontSize: '26px',
+            fontSize: '28px',
             fontStyle: 'bold',
             color: '#fef08a',
             stroke: '#0f172a',
@@ -51,7 +51,7 @@ export class MainMenu extends Scene {
         titleBanner.add(subTitleText);
 
         // Nút chuyển đổi HÌNH THỨC CHƠI (Tab Switcher)
-        this.createGameplayTypeSelector(width / 2, 126);
+        this.createGameplayTypeSelector(width / 2, 122);
 
         // 5 Nút Lộ trình học tập từng bước cho bé
         const startY = 196;
@@ -61,7 +61,7 @@ export class MainMenu extends Scene {
             width / 2,
             startY,
             '🔤  BƯỚC 1: BÉ TÌM CHỮ CÁI ĐƠN GIẢN (A, B, C...)',
-            'Đơn giản nhất: Nhận biết mặt chữ cái & hình ảnh bắt đầu (A-Táo, B-Bò, C-Cá...)',
+            'Nhận biết mặt chữ cái & hình ảnh bắt đầu (A-Táo, B-Bò, C-Cá...)',
             0x0284c7,
             0x38bdf8,
             () => this.startGame('single_letter')
@@ -71,7 +71,7 @@ export class MainMenu extends Scene {
             width / 2,
             startY + spacing,
             '📝  BƯỚC 2: BÉ GHÉP TỪ 2 CHỮ CÁI (MẸ, BA, BÉ, CÁ...)',
-            'Ghép từ 2 chữ cái có dấu quen thuộc kèm hình ảnh & giọng đánh vần chuẩn',
+            'Ghép từ 2 chữ cái có dấu quen thuộc kèm hình ảnh & giọng đánh vần',
             0x059669,
             0x34d399,
             () => this.startGame('word')
@@ -108,7 +108,7 @@ export class MainMenu extends Scene {
         );
 
         // Hướng dẫn ở chân trang
-        this.footerText = this.add.text(width / 2, height - 32, '💡 Hình thức Kéo Thả: Bấm giữ và kéo thẻ chữ/số thả vào ô thích hợp', {
+        this.footerText = this.add.text(width / 2, height - 28, '💡 Hình thức Kéo Thả: Chạm giữ và kéo thẻ chữ/số thả vào ô thích hợp', {
             fontFamily: 'Segoe UI, Arial, sans-serif',
             fontSize: '15px',
             color: '#cbd5e1',
@@ -116,7 +116,7 @@ export class MainMenu extends Scene {
         }).setOrigin(0.5);
 
         // Nút bật/tắt âm thanh
-        this.createMuteButton(width - 55, 45);
+        this.createMuteButton(width - 48, 48);
 
         // Phát lời chào khi tương tác lần đầu
         this.input.once('pointerdown', () => {

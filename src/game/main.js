@@ -16,7 +16,15 @@ const config = {
     backgroundColor: '#028af8',
     scale: {
         mode: Scale.FIT,
-        autoCenter: Scale.CENTER_BOTH
+        autoCenter: Scale.CENTER_BOTH,
+        width: 1024,
+        height: 768
+    },
+    input: {
+        activePointers: 3,
+        touch: {
+            capture: true
+        }
     },
     scene: [
         Boot,
