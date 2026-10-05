@@ -132,6 +132,53 @@ class VoiceSpeaker {
         }
     }
 
+    // Đọc yêu cầu đề bài cho bé bằng 100% file MP3 cục bộ (hoạt động hoàn hảo trên cả Vercel & di động)
+    playQuestionPrompt(question, gameplayType = 'drag') {
+        if (this.isMuted || !question) return;
+
+        const isReflex = gameplayType === 'reflex';
+
+        if (question.mode === 'single_letter') {
+            const prefix = isReflex ? 'audio/prompt_catch_letter.mp3' : 'audio/prompt_find_letter.mp3';
+            const letterAudio = `audio/letter_${encodeURIComponent(question.letter.toLowerCase())}.mp3`;
+            this.playAudioUrl(prefix, () => {
+                setTimeout(() => {
+                    this.playAudioUrl(letterAudio);
+                }, 120);
+            });
+        } else if (question.mode === 'word') {
+            const prefix = isReflex ? 'audio/prompt_catch_word.mp3' : 'audio/prompt_find_word.mp3';
+            const wordKey = this.wordAudioMap[question.word.toUpperCase()];
+            const wordAudio = wordKey ? `audio/${wordKey}.mp3` : null;
+            this.playAudioUrl(prefix, () => {
+                if (wordAudio) {
+                    setTimeout(() => {
+                        this.playAudioUrl(wordAudio);
+                    }, 150);
+                }
+            });
+        } else if (question.mode === 'number') {
+            if (question.subType === 'missing_seq') {
+                const prefix = isReflex ? 'audio/prompt_catch_seq.mp3' : 'audio/prompt_find_seq.mp3';
+                this.playAudioUrl(prefix);
+            } else {
+                const prefix = isReflex ? 'audio/prompt_catch_num.mp3' : 'audio/prompt_find_num.mp3';
+                const numAudio = `audio/num_${question.targetNumber}.mp3`;
+                this.playAudioUrl(prefix, () => {
+                    setTimeout(() => {
+                        this.playAudioUrl(numAudio);
+                    }, 120);
+                });
+            }
+        } else if (question.mode === 'math') {
+            this.playAudioUrl('audio/prompt_calc.mp3');
+        } else {
+            if (question.voicePrompt) {
+                this.speak(question.voicePrompt);
+            }
+        }
+    }
+
     // Đọc lời chào mở đầu
     speakWelcome() {
         this.playAudioUrl('audio/welcome.mp3');

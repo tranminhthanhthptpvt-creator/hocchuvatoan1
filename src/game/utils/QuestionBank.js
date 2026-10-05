@@ -70,7 +70,7 @@ function shuffle(array) {
 }
 
 // 🔤 MỤC 1 (ĐƠN GIẢN NHẤT): TÌM CHỮ CÁI ĐƠN LẺ KÈM HÌNH ẢNH MINH HỌA
-export function generateSingleLetterQuestion() {
+export function generateSingleLetterQuestion(gameplayType = 'drag') {
     const item = SINGLE_LETTERS[randInt(0, SINGLE_LETTERS.length - 1)];
     const targetLetter = item.letter;
 
@@ -97,6 +97,8 @@ export function generateSingleLetterQuestion() {
         value: val
     }));
 
+    const actionText = gameplayType === 'reflex' ? 'bắt bóng chữ' : 'tìm chữ';
+
     return {
         mode: 'single_letter',
         category: 'letters',
@@ -104,8 +106,8 @@ export function generateSingleLetterQuestion() {
         letterName: item.name,
         emoji: item.emoji,
         word: item.word,
-        voicePrompt: `${item.prompt} trong từ ${item.word}!`,
-        title: `Bé hãy tìm chữ: "${targetLetter}"`,
+        voicePrompt: `Bé hãy ${actionText} ${targetLetter}! ${targetLetter} trong từ ${item.word}!`,
+        title: `Bé hãy ${actionText}: "${targetLetter}"`,
         subtitle: `${item.emoji} ${item.word} • Chữ ${item.name}`,
         targets,
         cards
@@ -113,7 +115,7 @@ export function generateSingleLetterQuestion() {
 }
 
 // 📝 MỤC 2: GHÉP TỪ 2 CHỮ CÁI CÓ DẤU & TÌM CHỮ TƯƠNG ỨNG HÌNH ẢNH
-export function generateWordQuestion() {
+export function generateWordQuestion(gameplayType = 'drag') {
     const item = TWO_LETTER_WORDS[randInt(0, TWO_LETTER_WORDS.length - 1)];
     const [c1, c2] = item.letters;
 
@@ -138,13 +140,15 @@ export function generateWordQuestion() {
         value: val
     }));
 
+    const actionText = gameplayType === 'reflex' ? 'bắt bóng ghép thành chữ' : 'ghép chữ';
+
     return {
         mode: 'word',
         category: 'letters',
         word: item.word,
         emoji: item.emoji,
-        voicePrompt: `${item.prompt}! ${item.hint}`,
-        title: `Bé hãy ghép chữ: "${item.word}"`,
+        voicePrompt: `Bé hãy ${actionText} ${item.word}! ${item.hint}!`,
+        title: `Bé hãy ${actionText}: "${item.word}"`,
         subtitle: `${item.emoji} ${item.hint}`,
         targets,
         cards
@@ -152,7 +156,7 @@ export function generateWordQuestion() {
 }
 
 // 🔢 TẠO CÂU HỎI NHẬN BIẾT SỐ TỪ 1 ĐẾN 50
-export function generateNumberQuestion() {
+export function generateNumberQuestion(gameplayType = 'drag') {
     const isFindNumber = Math.random() < 0.6;
 
     if (isFindNumber) {
@@ -187,14 +191,16 @@ export function generateNumberQuestion() {
             value: String(val)
         }));
 
+        const actionText = gameplayType === 'reflex' ? 'bắt bóng số' : 'tìm số';
+
         return {
             mode: 'number',
             subType: 'find_number',
             category: 'numbers',
             targetNumber: targetNum,
-            voicePrompt: `Bé hãy tìm và kéo số ${targetNum} vào ô ngôi sao!`,
-            title: `Bé hãy tìm số: ${targetNum}`,
-            subtitle: `Kéo số ${targetNum} vào ô mục tiêu`,
+            voicePrompt: `Bé hãy ${actionText} ${targetNum}!`,
+            title: `Bé hãy ${actionText}: ${targetNum}`,
+            subtitle: gameplayType === 'reflex' ? `Bắt quả bóng số ${targetNum}` : `Kéo số ${targetNum} vào ô mục tiêu`,
             targets,
             cards
         };
@@ -226,13 +232,14 @@ export function generateNumberQuestion() {
         }));
 
         const displaySeq = seq.map((num, i) => i === missingIdx ? '[ ? ]' : String(num)).join('   ➜   ');
+        const actionText = gameplayType === 'reflex' ? 'bắt bóng số còn thiếu trong dãy số' : 'tìm số còn thiếu trong dãy số';
 
         return {
             mode: 'number',
             subType: 'missing_seq',
             category: 'numbers',
             targetNumber: targetNum,
-            voicePrompt: `Bé hãy tìm số còn thiếu trong dãy số!`,
+            voicePrompt: `Bé hãy ${actionText}!`,
             title: `Số nào còn thiếu trong dãy số?`,
             displaySeq,
             subtitle: displaySeq,
@@ -243,7 +250,7 @@ export function generateNumberQuestion() {
 }
 
 // 🧮 TẠO BÀI TOÁN CỘNG TRỪ TRONG PHẠM VI 10 (CHO BÉ 4-6 TUỔI)
-export function generateMathQuestion() {
+export function generateMathQuestion(gameplayType = 'drag') {
     const isAddition = Math.random() < 0.6;
     let a, b, result, op, opSymbol;
 
@@ -299,6 +306,9 @@ export function generateMathQuestion() {
         ? `${visualA}   ${opSymbol}   ${visualB}`
         : `${visualA}   bớt đi   ${visualB}`;
 
+    const opWord = op === '+' ? 'cộng' : 'trừ';
+    const actionText = gameplayType === 'reflex' ? 'Hãy bắt bóng kết quả' : 'Bé hãy tính';
+
     return {
         mode: 'math',
         category: 'math',
@@ -306,7 +316,7 @@ export function generateMathQuestion() {
         b,
         op,
         result,
-        voicePrompt: `${a} ${op === '+' ? 'cộng' : 'trừ'} ${b} bằng mấy bé nhỉ?`,
+        voicePrompt: `${actionText}: ${a} ${opWord} ${b} bằng mấy bé nhỉ?`,
         title: `Phép tính: ${mathText}`,
         subtitle: `🎨 ${visualText}`,
         targets,
@@ -315,24 +325,22 @@ export function generateMathQuestion() {
 }
 
 // Lấy câu hỏi theo chế độ được chọn và số thứ tự câu
-export function getQuestion(mode, questionIndex = 1) {
+export function getQuestion(mode, questionIndex = 1, gameplayType = 'drag') {
     if (mode === 'single_letter') {
-        return generateSingleLetterQuestion();
+        return generateSingleLetterQuestion(gameplayType);
     } else if (mode === 'word') {
-        return generateWordQuestion();
+        return generateWordQuestion(gameplayType);
     } else if (mode === 'letter_course') {
-        // Lộ trình học chữ cái: 3 câu đầu tìm chữ cái đơn lẻ, sau đó ghép từ 2 chữ cái
-        return questionIndex <= 3 ? generateSingleLetterQuestion() : generateWordQuestion();
+        return questionIndex <= 3 ? generateSingleLetterQuestion(gameplayType) : generateWordQuestion(gameplayType);
     } else if (mode === 'number') {
-        return generateNumberQuestion();
+        return generateNumberQuestion(gameplayType);
     } else if (mode === 'math') {
-        return generateMathQuestion();
+        return generateMathQuestion(gameplayType);
     } else {
-        // Chế độ tổng hợp
         const rand = Math.random();
-        if (rand < 0.25) return generateSingleLetterQuestion();
-        if (rand < 0.50) return generateWordQuestion();
-        if (rand < 0.75) return generateMathQuestion();
-        return generateNumberQuestion();
+        if (rand < 0.25) return generateSingleLetterQuestion(gameplayType);
+        if (rand < 0.50) return generateWordQuestion(gameplayType);
+        if (rand < 0.75) return generateMathQuestion(gameplayType);
+        return generateNumberQuestion(gameplayType);
     }
 }

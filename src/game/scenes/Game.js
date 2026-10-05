@@ -153,7 +153,7 @@ export class Game extends Scene {
         this.targets = [];
         this.cards = [];
 
-        this.currentQuestion = getQuestion(this.mode, this.questionIndex);
+        this.currentQuestion = getQuestion(this.mode, this.questionIndex, 'drag');
         this.progressText.setText(`Câu ${this.questionIndex}/${this.totalQuestions}`);
 
         const { width } = this.scale;
@@ -335,8 +335,8 @@ export class Game extends Scene {
 
         // Phát âm câu hỏi tự động
         this.time.delayedCall(400, () => {
-            if (this.currentQuestion && this.currentQuestion.voicePrompt) {
-                voiceSpeaker.speak(this.currentQuestion.voicePrompt);
+            if (this.currentQuestion) {
+                voiceSpeaker.playQuestionPrompt(this.currentQuestion, 'drag');
             }
         });
 
@@ -371,8 +371,8 @@ export class Game extends Scene {
                 duration: 100,
                 yoyo: true
             });
-            if (this.currentQuestion && this.currentQuestion.voicePrompt) {
-                voiceSpeaker.speak(this.currentQuestion.voicePrompt);
+            if (this.currentQuestion) {
+                voiceSpeaker.playQuestionPrompt(this.currentQuestion, 'drag');
             }
         });
         this.questionGroup.add(speakerBtn);
@@ -640,7 +640,7 @@ export class Game extends Scene {
             soundManager.playPickup();
 
             // ĐỌC ÂM THANH CHỮ CÁI HOẶC SỐ KHI BÉ CHẠM VÀO KÉO
-            if (this.currentQuestion.mode === 'word') {
+            if (this.currentQuestion.mode === 'single_letter' || this.currentQuestion.mode === 'word') {
                 voiceSpeaker.speakLetter(card.value);
             } else {
                 voiceSpeaker.speakNumber(card.value);

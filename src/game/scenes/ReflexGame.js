@@ -152,7 +152,7 @@ export class ReflexGame extends Scene {
         this.targets = [];
         this.bubbles = [];
 
-        this.currentQuestion = getQuestion(this.mode, this.questionIndex);
+        this.currentQuestion = getQuestion(this.mode, this.questionIndex, 'reflex');
         this.progressText.setText(`Câu ${this.questionIndex}/${this.totalQuestions}`);
 
         const { width } = this.scale;
@@ -331,8 +331,8 @@ export class ReflexGame extends Scene {
 
         // Đọc đề bài bằng giọng đọc chuẩn
         this.time.delayedCall(400, () => {
-            if (this.currentQuestion && this.currentQuestion.voicePrompt) {
-                voiceSpeaker.speak(this.currentQuestion.voicePrompt);
+            if (this.currentQuestion) {
+                voiceSpeaker.playQuestionPrompt(this.currentQuestion, 'reflex');
             }
         });
 
@@ -367,8 +367,8 @@ export class ReflexGame extends Scene {
                 duration: 100,
                 yoyo: true
             });
-            if (this.currentQuestion && this.currentQuestion.voicePrompt) {
-                voiceSpeaker.speak(this.currentQuestion.voicePrompt);
+            if (this.currentQuestion) {
+                voiceSpeaker.playQuestionPrompt(this.currentQuestion, 'reflex');
             }
         });
         this.questionGroup.add(speakerBtn);
@@ -631,7 +631,7 @@ export class ReflexGame extends Scene {
         soundManager.playPop();
 
         // Phát âm thanh giọng đọc chữ cái hoặc số ngay khi bắt trúng
-        if (this.currentQuestion.mode === 'word') {
+        if (this.currentQuestion.mode === 'single_letter' || this.currentQuestion.mode === 'word') {
             voiceSpeaker.speakLetter(bubble.value);
         } else {
             voiceSpeaker.speakNumber(bubble.value);
