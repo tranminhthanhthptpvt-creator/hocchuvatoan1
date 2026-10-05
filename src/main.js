@@ -9,72 +9,68 @@ document.addEventListener('DOMContentLoaded', () => {
     const forceLandscapeBtn = document.getElementById('force-landscape-btn');
     const floatingRotateBtn = document.getElementById('landscape-toggle-floating');
 
-    // Hàm kích hoạt xoay ngang (Fullscreen + Screen Orientation Lock + CSS Fallback)
-    const enableLandscapeMode = async () => {
+    // Hàm yêu cầu Toàn Màn Hình & Xoay Ngang chuẩn của trình duyệt (đảm bảo cảm ứng 100% chuẩn)
+    const requestFullscreenLandscape = async () => {
         try {
-            // 1. Yêu cầu toàn màn hình (Fullscreen)
-            if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-                await document.documentElement.requestFullscreen().catch(() => {});
+            // Yêu cầu Fullscreen trên toàn bộ trang
+            const docEl = document.documentElement;
+            if (docEl.requestFullscreen) {
+                await docEl.requestFullscreen().catch(() => {});
+            } else if (docEl.webkitRequestFullscreen) {
+                await docEl.webkitRequestFullscreen().catch(() => {});
             }
 
-            // 2. Thử khóa hướng màn hình sang ngang bằng Screen Orientation API
+            // Yêu cầu xoay ngang thiết bị
             if (screen.orientation && screen.orientation.lock) {
                 await screen.orientation.lock('landscape').catch(() => {});
             }
-        } catch (e) {
-            console.log('Orientation lock not supported by browser, falling back to CSS transform');
-        }
-
-        // 3. Nếu màn hình vẫn đang ở chiều dọc (do người dùng khóa xoay dọc trên điện thoại)
-        // Áp dụng CSS transform xoay 90 độ ép buộc nằm ngang toàn màn hình
-        const isPortrait = window.innerHeight > window.innerWidth;
-        if (isPortrait) {
-            document.body.classList.toggle('force-landscape');
-        } else {
-            document.body.classList.remove('force-landscape');
+        } catch (err) {
+            console.log('Fullscreen/Orientation request error:', err);
         }
 
         if (rotatePrompt) {
             rotatePrompt.classList.add('dismissed');
         }
 
-        // Kích hoạt Phaser tính toán lại kích thước
         setTimeout(() => {
             if (game && game.scale) {
                 game.scale.refresh();
             }
-        }, 300);
+        }, 200);
     };
 
     if (forceLandscapeBtn) {
-        forceLandscapeBtn.addEventListener('click', enableLandscapeMode);
+        forceLandscapeBtn.addEventListener('click', requestFullscreenLandscape);
     }
 
     if (floatingRotateBtn) {
-        floatingRotateBtn.addEventListener('click', () => {
-            document.body.classList.toggle('force-landscape');
-            setTimeout(() => {
-                if (game && game.scale) {
-                    game.scale.refresh();
-                }
-            }, 300);
-        });
+        floatingRotateBtn.addEventListener('click', requestFullscreenLandscape);
     }
 
     if (closeBtn && rotatePrompt) {
         closeBtn.addEventListener('click', () => {
             rotatePrompt.classList.add('dismissed');
+            setTimeout(() => {
+                if (game && game.scale) {
+                    game.scale.refresh();
+                }
+            }, 100);
         });
     }
 
-    // Tự động hủy CSS xoay giả khi người dùng thực sự nghiêng điện thoại nằm ngang
+    // Khi người dùng xoay điện thoại hoặc thoát toàn màn hình, cập nhật lại canvas
     window.addEventListener('resize', () => {
-        if (window.innerWidth > window.innerHeight) {
-            document.body.classList.remove('force-landscape');
+        if (game && game.scale) {
+            game.scale.refresh();
+        }
+    });
+
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
             if (game && game.scale) {
                 game.scale.refresh();
             }
-        }
+        }, 200);
     });
 
 });

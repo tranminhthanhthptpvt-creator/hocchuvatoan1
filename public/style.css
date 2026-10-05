@@ -164,6 +164,7 @@ html, body {
     transform: scale(0.92);
 }
 
+/* Ẩn các nút xoay không cần thiết khi xoay ngang */
 @keyframes rotateBounce {
     0%, 100% {
         transform: scale(1) rotate(0deg);
@@ -173,32 +174,17 @@ html, body {
     }
 }
 
-/* CHẾ ĐỘ ÉP XOAY NGANG BẰNG CSS (KHI NGƯỜI DÙNG BẤM "CHƠI VỚI ĐIỆN THOẠI NGANG" MÀ MÁY BỊ KHÓA XOAY DỌC) */
-body.force-landscape #game-container {
-    transform: rotate(90deg);
-    transform-origin: center center;
-    width: 100vh !important;
-    height: 100vw !important;
-    position: absolute;
-    top: calc((100vh - 100vw) / 2);
-    left: calc((100vw - 100vh) / 2);
-}
-
-body.force-landscape #game-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 100% !important;
-    max-height: 100% !important;
-}
-
-/* Ẩn banner nhắc nhở khi đã ép xoay ngang hoặc người dùng đóng */
-body.force-landscape #rotate-prompt {
-    display: none !important;
-}
-
 /* Mặc định hiển thị banner khi màn hình đang ở chiều dọc (portrait) */
 @media screen and (orientation: portrait) and (max-width: 820px) {
     #rotate-prompt:not(.dismissed) {
         display: flex;
     }
 }
+
+/* Khi đã xoay ngang (landscape), tự động ẩn thông báo và cho phép toàn màn hình */
+@media screen and (orientation: landscape) {
+    #rotate-prompt {
+        display: none !important;
+    }
+}
+
