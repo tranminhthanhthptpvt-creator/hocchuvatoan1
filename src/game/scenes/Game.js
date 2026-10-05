@@ -185,9 +185,9 @@ export class Game extends Scene {
                 ease: 'Sine.easeInOut'
             });
 
-            const qTitle = this.add.text(width / 2, 220, `Bé hãy tìm chữ: "${this.currentQuestion.letter}"`, {
+            const qTitle = this.add.text(width / 2, 218, `${this.currentQuestion.word}, chữ ${this.currentQuestion.letterName}`, {
                 fontFamily: 'Segoe UI, Arial, sans-serif',
-                fontSize: '32px',
+                fontSize: '28px',
                 fontStyle: 'bold',
                 color: '#fef08a',
                 stroke: '#0f172a',
@@ -195,11 +195,13 @@ export class Game extends Scene {
             }).setOrigin(0.5);
             this.questionGroup.add(qTitle);
 
-            const qSub = this.add.text(width / 2, 268, `${this.currentQuestion.word} • Chữ ${this.currentQuestion.letterName}`, {
+            const qSub = this.add.text(width / 2, 268, `👉 Bé hãy tìm chữ "${this.currentQuestion.letter}"`, {
                 fontFamily: 'Segoe UI, Arial, sans-serif',
-                fontSize: '22px',
+                fontSize: '24px',
                 fontStyle: 'bold',
-                color: '#93c5fd'
+                color: '#38bdf8',
+                stroke: '#0f172a',
+                strokeThickness: 3
             }).setOrigin(0.5);
             this.questionGroup.add(qSub);
 

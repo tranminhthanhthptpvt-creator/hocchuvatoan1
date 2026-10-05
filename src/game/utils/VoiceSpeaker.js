@@ -139,13 +139,9 @@ class VoiceSpeaker {
         const isReflex = gameplayType === 'reflex';
 
         if (question.mode === 'single_letter') {
-            const prefix = isReflex ? 'audio/prompt_catch_letter.mp3' : 'audio/prompt_find_letter.mp3';
-            const letterAudio = `audio/letter_${encodeURIComponent(question.letter.toLowerCase())}.mp3`;
-            this.playAudioUrl(prefix, () => {
-                setTimeout(() => {
-                    this.playAudioUrl(letterAudio);
-                }, 120);
-            });
+            const letterKey = encodeURIComponent(question.letter.toLowerCase());
+            const promptFile = isReflex ? `audio/q_catch_${letterKey}.mp3` : `audio/q_find_${letterKey}.mp3`;
+            this.playAudioUrl(promptFile);
         } else if (question.mode === 'word') {
             const prefix = isReflex ? 'audio/prompt_catch_word.mp3' : 'audio/prompt_find_word.mp3';
             const wordKey = this.wordAudioMap[question.word.toUpperCase()];

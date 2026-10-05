@@ -183,9 +183,9 @@ export class ReflexGame extends Scene {
                 ease: 'Sine.easeInOut'
             });
 
-            const qTitle = this.add.text(width / 2, 210, `Bé hãy bắt bóng chữ: "${this.currentQuestion.letter}"`, {
+            const qTitle = this.add.text(width / 2, 210, `${this.currentQuestion.word}, chữ ${this.currentQuestion.letterName}`, {
                 fontFamily: 'Segoe UI, Arial, sans-serif',
-                fontSize: '32px',
+                fontSize: '28px',
                 fontStyle: 'bold',
                 color: '#fef08a',
                 stroke: '#0f172a',
@@ -193,11 +193,13 @@ export class ReflexGame extends Scene {
             }).setOrigin(0.5);
             this.questionGroup.add(qTitle);
 
-            const qSub = this.add.text(width / 2, 260, `🎈 Bấm bóng chữ ${this.currentQuestion.letterName} (${this.currentQuestion.word}) đang bay!`, {
+            const qSub = this.add.text(width / 2, 260, `🎈 Bé hãy bắt bóng chữ "${this.currentQuestion.letter}"`, {
                 fontFamily: 'Segoe UI, Arial, sans-serif',
-                fontSize: '18px',
+                fontSize: '24px',
                 fontStyle: 'bold',
-                color: '#38bdf8'
+                color: '#38bdf8',
+                stroke: '#0f172a',
+                strokeThickness: 3
             }).setOrigin(0.5);
             this.questionGroup.add(qSub);
 
