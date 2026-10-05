@@ -4,7 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const game = StartGame('game-container');
 
-    // Tự động canh chỉnh canvas vừa khít màn hình khi thay đổi kích thước
+    // Đảm bảo canvas tính toán đúng tâm ngay sau khi load
+    setTimeout(() => {
+        if (game && game.scale) {
+            game.scale.refresh();
+        }
+    }, 100);
+
+    // Tự động canh chỉnh canvas vừa khít và chính giữa màn hình khi thay đổi kích thước
     window.addEventListener('resize', () => {
         if (game && game.scale) {
             game.scale.refresh();
