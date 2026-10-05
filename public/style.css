@@ -78,6 +78,25 @@ html, body {
     color: #93c5fd;
     max-width: 320px;
     line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+#close-rotate-btn {
+    background: #0284c7;
+    color: #ffffff;
+    border: 2px solid #38bdf8;
+    padding: 10px 22px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    touch-action: manipulation;
+}
+
+#close-rotate-btn:active {
+    background: #0369a1;
+    transform: scale(0.96);
 }
 
 @keyframes rotateBounce {
@@ -89,9 +108,9 @@ html, body {
     }
 }
 
-/* Chỉ kích hoạt khi màn hình đứng (portrait) và chiều rộng bé (điện thoại/tablet nhỏ) */
+/* Chỉ hiện khi xoay dọc và người dùng chưa bấm bỏ qua */
 @media screen and (orientation: portrait) and (max-width: 820px) {
-    #rotate-prompt {
+    #rotate-prompt:not(.dismissed) {
         display: flex;
     }
 }
