@@ -15,11 +15,24 @@
     <div id="app">
         <div id="game-container"></div>
         <div id="rotate-prompt">
-            <div class="rotate-icon">📱 ➔ 🔄 ➔ 📱</div>
-            <div class="rotate-title">Bé Hãy Xoay Ngang Điện Thoại Nhé!</div>
-            <div class="rotate-desc">Trò chơi sẽ to, rõ và đẹp nhất khi xoay ngang máy 🌟</div>
-            <button id="close-rotate-btn" type="button">Tiếp tục chơi dọc ➔</button>
+            <div class="rotate-icon">📱 ➔ 🔄 ➔ 📲</div>
+            <div class="rotate-title">CHƠI VỚI ĐIỆN THOẠI NGANG</div>
+            <div class="rotate-desc">
+                Trò chơi cần nằm ngang để chữ to, nút bấm lớn và bé dễ kéo thả nhất!
+            </div>
+            <div class="rotate-buttons">
+                <button id="force-landscape-btn" type="button" class="btn-primary">
+                    🔄 Bật Chế Độ Xoay Ngang Màn Hình
+                </button>
+                <button id="close-rotate-btn" type="button" class="btn-secondary">
+                    Chơi thu nhỏ ở màn hình dọc ➔
+                </button>
+            </div>
+            <div class="rotate-tip">
+                💡 <b>Mẹo cho phụ huynh:</b> Bật tính năng <i>"Tự động xoay màn hình" (Auto-rotate)</i> trên trung tâm điều khiển của điện thoại rồi nghiêng máy sang ngang nhé!
+            </div>
         </div>
+        <button id="landscape-toggle-floating" title="Ép xoay ngang màn hình" type="button">🔄 Xoay Ngang</button>
     </div>
     <script type="module" src="src/main.js"></script>
 </body>
