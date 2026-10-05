@@ -4,6 +4,7 @@
 class VoiceSpeaker {
     constructor() {
         this.currentAudio = null;
+        this.sequenceTimer = null;
         this.isMuted = false;
         this.audioCache = new Map();
 
@@ -36,6 +37,10 @@ class VoiceSpeaker {
     }
 
     stop() {
+        if (this.sequenceTimer) {
+            clearTimeout(this.sequenceTimer);
+            this.sequenceTimer = null;
+        }
         if (this.currentAudio) {
             try {
                 this.currentAudio.pause();
@@ -140,8 +145,18 @@ class VoiceSpeaker {
 
         if (question.mode === 'single_letter') {
             const letterKey = encodeURIComponent(question.letter.toLowerCase());
-            const promptFile = isReflex ? `audio/q_catch_${letterKey}.mp3` : `audio/q_find_${letterKey}.mp3`;
-            this.playAudioUrl(promptFile);
+            const introFile = `audio/intro_${letterKey}.mp3`;
+            const reqFile = isReflex ? `audio/req_catch_${letterKey}.mp3` : `audio/req_find_${letterKey}.mp3`;
+
+            // Bước 1: Đọc liên tưởng: "Con vịt, chữ Vờ"
+            this.playAudioUrl(introFile, () => {
+                // Bước 2: Ngưng đúng 2 giây (2000ms) để bé kịp hình dung
+                this.sequenceTimer = setTimeout(() => {
+                    this.sequenceTimer = null;
+                    // Bước 3: Đọc yêu cầu hành động: "Bé hãy bắt bóng chữ Vờ" (hoặc "Bé hãy tìm chữ Vờ")
+                    this.playAudioUrl(reqFile);
+                }, 2000);
+            });
         } else if (question.mode === 'word') {
             const prefix = isReflex ? 'audio/prompt_catch_word.mp3' : 'audio/prompt_find_word.mp3';
             const wordKey = this.wordAudioMap[question.word.toUpperCase()];
